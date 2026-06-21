@@ -187,6 +187,30 @@ main li {
   color: var(--text);
 }
 
+.cv-entry-roles {
+  list-style: none;
+  margin: 0.35rem 0 0;
+  padding: 0;
+}
+
+.cv-entry-roles li {
+  margin-bottom: 0.5rem;
+}
+
+.cv-entry-roles li:last-child {
+  margin-bottom: 0;
+}
+
+.cv-entry-roles .cv-entry-role {
+  display: block;
+  margin: 0;
+}
+
+.cv-entry-roles .cv-entry-meta {
+  display: block;
+  margin: 0.1rem 0 0;
+}
+
 .cv-entry-meta {
   font-size: 0.9rem;
   color: var(--text-muted);
