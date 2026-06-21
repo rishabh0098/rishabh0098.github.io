@@ -10,6 +10,27 @@ Minimal personal portfolio site. Source lives in this **private** repo; pushes t
 - **CV** — education, experience, publications
 - **Blog** — posts in `blog/posts/`
 
+## Deploying changes
+
+GitHub Free does not support Pages on private repos, so the setup uses two repositories:
+
+| Repo | Visibility | Purpose |
+|------|------------|---------|
+| [website](https://github.com/rishabh0098/website) | Private | Source code (edit here) |
+| [rishabh0098.github.io](https://github.com/rishabh0098/rishabh0098.github.io) | Public | GitHub Pages deployment |
+
+### Option 1: Local deploy script (no secrets needed)
+
+```bash
+./scripts/deploy.sh
+```
+
+### Option 2: Automatic deploy via GitHub Actions
+
+1. Create a [fine-grained personal access token](https://github.com/settings/tokens?type=beta) with **Contents: Read and write** on `rishabh0098.github.io`
+2. Add it as a secret named `GITHUB_PAGES_DEPLOY` on the private `website` repo
+3. Pushes to `main` will auto-deploy
+
 ## Local preview
 
 ```bash
