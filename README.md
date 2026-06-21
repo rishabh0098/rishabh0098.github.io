@@ -1,6 +1,6 @@
-# Personal Website
+# Personal Website (private source)
 
-A minimal personal portfolio site hosted on GitHub Pages.
+Minimal personal portfolio site. Source lives in this **private** repo; pushes to `main` auto-deploy to the public [rishabh0098.github.io](https://github.com/rishabh0098/rishabh0098.github.io) repo for GitHub Pages.
 
 **Live site:** https://rishabh0098.github.io
 
