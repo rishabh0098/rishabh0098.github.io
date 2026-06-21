@@ -302,6 +302,10 @@ main li {
   color: var(--text-muted);
 }
 
+.blog-post-page main {
+  padding-top: 2.5rem;
+}
+
 .back-link:hover {
   color: var(--link);
 }
