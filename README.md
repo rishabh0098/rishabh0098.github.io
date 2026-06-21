@@ -28,7 +28,7 @@ GitHub Free does not support Pages on private repos, so the setup uses two repos
 ### Option 2: Automatic deploy via GitHub Actions
 
 1. Create a [fine-grained personal access token](https://github.com/settings/tokens?type=beta) with **Contents: Read and write** on `rishabh0098.github.io`
-2. Add it as a secret named `GITHUB_PAGES_DEPLOY` on the private `website` repo
+2. Add it as a secret named `PAGES_DEPLOY_TOKEN` on the private `website` repo
 3. Pushes to `main` will auto-deploy
 
 ## Local preview
