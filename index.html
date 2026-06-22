@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="assets/js/theme-init.js"></script>
   <meta name="description" content="Rishabh Kumar — personal website">
   <title>Rishabh Kumar</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,7 +17,14 @@
   <div class="page">
     <header class="site-header">
       <div class="container">
-        <h1 class="site-title">Rishabh Kumar</h1>
+        <div class="site-title-row">
+          <h1 class="site-title">Rishabh Kumar</h1>
+          <button type="button" class="theme-toggle" role="switch" aria-checked="false" aria-label="Switch to dark mode">
+            <span class="theme-toggle-track">
+              <span class="theme-toggle-thumb"></span>
+            </span>
+          </button>
+        </div>
         <p class="site-subtitle">
           <!-- Update with your current role and affiliation -->
           Aspiring Researcher &amp; Engineer
@@ -80,5 +88,6 @@
       </div>
     </footer>
   </div>
+  <script src="assets/js/theme.js"></script>
 </body>
 </html>
