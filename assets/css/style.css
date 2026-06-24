@@ -8,7 +8,6 @@
   --link-hover: #5e5d59;
   --border: #d4d0c6;
   --bg: #dbd7cd;
-  --bg-card: #dbd7cd;
   --code-block-bg: #d0ccc2;
   --code-block-header-bg: #c8c4ba;
   --code-block-copy-hover: rgba(20, 20, 19, 0.06);
@@ -16,6 +15,7 @@
   --max-width: 720px;
   --font-serif: "Newsreader", ui-serif, Georgia, "Times New Roman", serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
 }
 
 [data-theme="dark"] {
@@ -27,7 +27,6 @@
   --link-hover: #d1cfca;
   --border: #4a4a47;
   --bg: #252523;
-  --bg-card: #252523;
   --code-block-bg: #1e1e1c;
   --code-block-header-bg: #2a2a28;
   --code-block-copy-hover: rgba(250, 249, 245, 0.08);
@@ -47,9 +46,7 @@ html {
 
 body {
   margin: 0;
-  padding: 0;
   font-family: var(--font-sans);
-  font-weight: 400;
   line-height: 1.65;
   color: var(--text);
   background: var(--bg);
@@ -85,7 +82,7 @@ a:hover {
 .site-header {
   padding: 2.5rem 0 1.5rem;
   border-bottom: 1px solid var(--border);
-  background: var(--bg-card);
+  background: var(--bg);
 }
 
 .site-title-row {
@@ -106,7 +103,6 @@ a:hover {
 
 .site-title a {
   color: inherit;
-  text-decoration: none;
 }
 
 .site-title a:hover {
@@ -147,7 +143,6 @@ a:hover {
 
 .site-nav a {
   color: var(--text-muted);
-  text-decoration: none;
   padding-bottom: 0.15rem;
   border-bottom: 2px solid transparent;
 }
@@ -193,7 +188,7 @@ a:hover {
   left: 2px;
   width: calc(1.5rem - 4px);
   height: calc(1.5rem - 4px);
-  background: var(--bg-card);
+  background: var(--bg);
   border-radius: 50%;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
   transition: transform 0.2s ease;
@@ -275,7 +270,6 @@ main li {
 
 .cv-entry-role {
   margin: 0 0 0.15rem;
-  color: var(--text);
 }
 
 .cv-entry-roles {
@@ -308,11 +302,6 @@ main li {
   margin: 0 0 0.35rem;
 }
 
-.cv-entry-desc {
-  margin: 0;
-  font-size: 0.95rem;
-}
-
 /* Blog */
 .blog-list {
   list-style: none;
@@ -338,7 +327,6 @@ main li {
 
 .blog-item-title a {
   color: var(--text);
-  text-decoration: none;
 }
 
 .blog-item-title a:hover {
@@ -379,31 +367,14 @@ main li {
   font-size: 1.2rem;
 }
 
-.blog-post-content h3 {
-  font-family: var(--font-serif);
-  font-size: 1.05rem;
-  font-weight: 600;
-  margin: 1.5rem 0 0.5rem;
-}
-
-.back-link {
-  display: inline-block;
-  font-size: 0.9rem;
-  margin-bottom: 1.5rem;
-  color: var(--text-muted);
-}
-
-.blog-post-page main {
-  padding-top: 2.5rem;
-}
-
 .blog-post-page .site-title-row {
   position: relative;
   padding-bottom: 1.25rem;
   margin-bottom: 0;
 }
 
-.blog-post-page .site-title-row::after {
+.blog-post-page .site-title-row::after,
+.blog-post-page .back-link::after {
   content: "";
   position: absolute;
   left: 50%;
@@ -416,34 +387,24 @@ main li {
 
 .blog-post-page .back-link {
   display: block;
+  font-size: 0.9rem;
   padding-top: 1.25rem;
   padding-bottom: 1.25rem;
   margin-bottom: 0;
   position: relative;
+  color: var(--text-muted);
 }
 
-.blog-post-page .back-link::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  transform: translateX(-50%);
-  width: 100vw;
-  height: 1px;
-  background: var(--border);
+.blog-post-page .back-link:hover {
+  color: var(--link);
 }
 
 .blog-post-page .blog-post-header {
   margin-top: 2rem;
-  margin-bottom: 2rem;
-}
-
-.back-link:hover {
-  color: var(--link);
 }
 
 .blog-post-content code {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-family: var(--font-mono);
   font-size: 0.88em;
   padding: 0.12em 0.38em;
   border-radius: 0.3em;
@@ -480,7 +441,7 @@ main li {
 
 .code-block-lang::before {
   content: "</>";
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-family: var(--font-mono);
   font-size: 0.78rem;
   font-weight: 500;
   color: var(--text-muted);
@@ -525,7 +486,7 @@ main li {
   margin: 0;
   padding: 0.85rem 1rem;
   overflow-x: auto;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-family: var(--font-mono);
   font-size: 0.84rem;
   line-height: 1.55;
   color: var(--text);
@@ -547,7 +508,7 @@ main li {
   font-size: 0.82rem;
   color: var(--text-light);
   text-align: center;
-  background: var(--bg-card);
+  background: var(--bg);
 }
 
 /* Responsive */
