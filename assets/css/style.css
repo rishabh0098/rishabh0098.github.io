@@ -367,6 +367,16 @@ main li {
   font-size: 1.2rem;
 }
 
+.blog-post-content a {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 1px;
+}
+
+.blog-post-content a:hover {
+  color: var(--link-hover);
+}
+
 .blog-post-page .site-title-row {
   position: relative;
   padding-bottom: 1.25rem;

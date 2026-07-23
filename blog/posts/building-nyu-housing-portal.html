@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="../../assets/js/theme-init.js"></script>
+  <meta name="description" content="Reading the Room: Building an Off-Campus Housing Board for NYU — Rishabh Kumar">
+  <title>Reading the Room: Building an Off-Campus Housing Board for NYU — Rishabh Kumar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;1,400&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/style.css">
+  <script data-goatcounter="https://rishabh0098.goatcounter.com/count"
+          async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+  <div class="page blog-post-page">
+    <main>
+      <div class="container">
+        <div class="site-title-row">
+          <h1 class="site-title"><a href="../../index.html">Rishabh Kumar</a></h1>
+          <button type="button" class="theme-toggle" role="switch" aria-checked="false" aria-label="Switch to dark mode">
+            <span class="theme-toggle-track">
+              <span class="theme-toggle-thumb"></span>
+            </span>
+          </button>
+        </div>
+        <a href="../index.html" class="back-link">← Back to blog</a>
+
+        <header class="blog-post-header">
+          <h1 class="blog-post-title">Reading the Room: Building an Off-Campus Housing Board for NYU</h1>
+          <p class="blog-post-date">July 23, 2026</p>
+        </header>
+
+        <article class="blog-post-content">
+          <p>
+            I got an admit offer from NYU Courant for their MS CS program this fall, and as I was waiting
+            for my visa interview, I came across the NYU community WhatsApp groups. It's a great
+            community — people are genuinely helpful, and there's usually someone around who has already
+            figured out the thing you're stuck on.
+          </p>
+          <p>
+            There is a housing group as well in the community. I ended up scrolling through that group a lot, 
+            mostly just to get a feel for what off-campus housing looks like in the US before I got there. 
+            I wasn't actively looking for a place yet — more like reading the room.
+          </p>
+          <p>
+            After a few days of scrolling, I started to notice some patterns. The same listing would show up again and again because
+            people were posting it daily so it wouldn't disappear under newer messages. A lot of posts
+            just said “DM me for pictures.” And sometimes people would ask what a lease takeover
+            or a guarantor was — things that aren't obvious if you haven't rented in the US before, and
+            that mostly get explained in the group itself.
+          </p>
+          <p>
+            A few days of doing that, and an idea started to form in my head. I thought it might be nice to have a shared listing board for NYU
+            students — somewhere the same information could sit in one place, without turning into a
+            whole booking or messaging app. Interested people could still contact the poster the usual
+            way.
+          </p>
+
+          <h2>Diving deeper</h2>
+          <p>
+            Once I was serious about making something, I went back to the groups with a different eye.
+            Not just scrolling for curiosity this time — deliberately looking for the friction people
+            hit when they're actually trying to find or list a place.
+          </p>
+          <p>
+            That second pass surfaced different issues. If you're seriously considering a listing, there's
+            often no way to tell whether it's still available unless you message. Keeping two or three
+            options in your head means jumping between chats and half-remembering rent, commute, or lease
+            details. And the daily reposting I'd noticed earlier pointed at a bigger question for a board:
+            what happens when a listing sits around after the place is already taken?
+          </p>
+          <p>
+            Before writing much code, I spent some time writing those things down. That felt a little
+            formal for a side project, but it helped me stay focused. Roughly: only NYU emails should
+            get in, there should be a way to browse and compare listings, a way to add or remove your
+            own, some notion of listings going inactive over time, and a short glossary for renting
+            terms. No separate profiles — if you'd signed in with your NYU email, that was enough.
+          </p>
+          <p>
+            I also had that writeup reviewed a few different ways — staleness, empty states, security,
+            scope. A few more gaps showed up there, especially how someone comes back later to manage
+            something they posted.
+          </p>
+
+          <h2>OTP sounded right, until it didn't</h2>
+          <p>
+            The first auth idea was simple: enter your NYU email, get a one-time code, and you're in.
+            Sending those emails turned out to be harder than I expected. The free Resend onboarding
+            sender doesn't deliver to arbitrary addresses the way I hoped — it mostly only works for
+            your own account. Getting codes to real students would have meant buying a domain or going
+            through NYU IT, and neither felt like a good starting point for a small volunteer project.
+          </p>
+          <p>
+            So I switched to Google sign-in, limited to <code>nyu.edu</code>. Google handles the
+            identity check; the site only confirms the domain. After that, a session cookie lasts about
+            five days, which felt like a comfortable middle ground — you don't have to sign in every
+            time you close the tab, but you also don't stay logged in forever.
+          </p>
+          <p>
+            One useful detail along the way: putting the Google Cloud project under NYU's org “Personal
+            Projects” folder let me use an Internal OAuth audience. Any <code>@nyu.edu</code> account
+            can sign in without the usual 100-user Testing-mode limit. That only works because of the
+            NYU org folder — not just because I happen to have an NYU email on a personal project.
+          </p>
+
+          <h2>Putting it together</h2>
+          <p>The stack I ended up with:</p>
+          <ul>
+            <li>Next.js 16 (App Router) + TypeScript + Tailwind</li>
+            <li>Prisma + Neon Postgres</li>
+            <li>Google OAuth for <code>nyu.edu</code> accounts</li>
+            <li>Vercel Cron for listing expiry</li>
+          </ul>
+          <p>
+            Most of it came together in Cursor sessions — I stayed close on the product choices, and
+            leaned on the agent for boilerplate, migrations, and the usual deploy mysteries. Google
+            sign-in, a public GitHub repo, and a Vercel deploy all came together fairly quickly once
+            the shape of the thing was clear.
+          </p>
+          <p>
+            Some of those mysteries were less about code and more about setup: accepting Neon terms in
+            the browser, connecting GitHub to Vercel once, and learning that deleting an env var from
+            the wrong place can quietly affect Preview and Production if the values were shared. I keep
+            <code>main</code> as production and <code>dev</code> as preview, each with its own database
+            and secrets. Mixing those is a good way to get “works on preview, empty on prod.”
+          </p>
+
+          <h2>What it looks like now</h2>
+          <p>
+            After login there are three tabs: Available listings, My listings, and Glossary. You can
+            filter by area (NYC boroughs plus a few Jersey City PATH areas), campus/distance, rent,
+            bedrooms, lease type, and a few other things. You can also compare up to three listings
+            side by side.
+          </p>
+          <p>
+            Listings don't stay live forever. Active ones move to Inactive after 15 days, and posters
+            can bring them back from My listings. Inactive ones eventually get cleaned up by a daily
+            cron job.
+          </p>
+          <p>
+            I also rewrote some of the early homepage copy. The first version sounded a bit like I was
+            launching a product. What I wanted was quieter — just an unofficial tool made by a student,
+            for other students.
+          </p>
+
+          <h2>A security pass, and a photo detour</h2>
+          <p>
+            A few days after the first deploy, I asked for a security and privacy pass. There were no
+            secrets in the repo, which was reassuring. Hosting photos ourselves on Vercel Blob felt like
+            more surface area than I needed, and poster emails were showing up in public API responses
+            when they didn't have to.
+          </p>
+          <p>
+            The first reaction was to drop Blob and let posters paste a Google Drive link instead. On
+            paper that looked simpler. In practice the Drive embeds didn't work properly — images
+            often failed to show inside the iframe — so I reverted and went back to uploading photos
+            to Vercel Blob.
+          </p>
+          <p>
+            I also turned on Postgres RLS and stripped a few unnecessary fields from public responses.
+            At one point I tried encrypting contact details at rest, then undid that. For a solo project
+            like this, holding encryption keys I couldn't recover from felt like the wrong kind of
+            complexity.
+          </p>
+
+          <h2>A few things I learned along the way</h2>
+          <p>
+            Building with an agent made the loop faster, which also meant ordinary shipping bugs showed
+            up sooner — a missing export that made the compare modal look broken, tab switches that felt
+            slow because they were doing full navigations, date inputs that followed the OS locale and
+            showed up as <code>dd/mm/yyyy</code>. None of that is unique to AI. It just arrives earlier
+            when you're moving quickly.
+          </p>
+          <p>A few other notes from the process:</p>
+          <ul>
+            <li>What you notice while casually scrolling is different from what you notice when you're deliberately looking for issues to fix.</li>
+            <li>Writing things down first helped once auth, personal details, and listing expiry entered the picture.</li>
+            <li>Email OTP can fail you before the UI ever gets a chance.</li>
+            <li>Preview and Production secrets are worth keeping separate.</li>
+            <li>Sometimes the “simpler” security fix doesn't survive contact with the browser — Drive embeds were a good example.</li>
+            <li>The tone of the site matters more than I expected.</li>
+          </ul>
+          <p>
+            The board is live for <code>@nyu.edu</code> accounts at
+            <a href="https://nyuoffcampushousing.vercel.app" target="_blank" rel="noopener">nyuoffcampushousing.vercel.app</a>,
+            and the code is on
+            <a href="https://github.com/rishabh0098/nyuoffcampushousing" target="_blank" rel="noopener">GitHub</a>.
+            It's still just a showcase — students find listings there, then reach out the usual way.
+          </p>
+          <p>Until next time!</p>
+        </article>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>© 2026 Rishabh Kumar vibecoded with Cursor | Last updated: July 2026</p>
+      </div>
+    </footer>
+  </div>
+  <script src="../../assets/js/theme.js"></script>
+</body>
+</html>
